@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  htserver:
+    image: htserver
+    build:
+      context: ./HTServer
+      dockerfile: Dockerfile
