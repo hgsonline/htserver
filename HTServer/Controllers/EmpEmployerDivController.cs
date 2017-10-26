@@ -7,7 +7,7 @@ namespace HTServer.Controllers
 {
     [Produces("application/json")]
     [Route("api/EmpEmployerDiv")]
-            //[TypeFilter(typeof(APIUserAuthorizeAttribute))]
+    //[TypeFilter(typeof(APIUserAuthorizeAttribute))]
 
     public class EmpEmployerDivController : Controller
     {
