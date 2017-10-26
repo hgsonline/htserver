@@ -33,7 +33,7 @@ namespace HTServer.Models
         public async Task<List<EmpDivContact>> LatestPostsAsync()
         {
             var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = @"SELECT * FROM `EmpDivContact` ORDER BY `EmpId` DESC LIMIT 50;";//"SELECT `Id`, `Title`, `Content` FROM `emp_employer` ORDER BY `Id` DESC LIMIT 10;";
+            cmd.CommandText = @"SELECT * FROM `EmpDivContact` ORDER BY `EmpContactId` DESC LIMIT 50;";//"SELECT `Id`, `Title`, `Content` FROM `emp_employer` ORDER BY `Id` DESC LIMIT 10;";
             //cmd.CommandType = CommandType.StoredProcedure;
             return await ReadAllAsync(await cmd.ExecuteReaderAsync());
         }

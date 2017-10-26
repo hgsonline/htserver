@@ -18,5 +18,12 @@ namespace HTServer.Models
         public DbSet<UserType> usertype { get; set; }
         public DbSet<EmpEntityType> empentitytype { get; set; }
 
+         public DbSet<PrvProvider> prvprovider { get; set; }
+
+
+        public DbSet<MbrFamilyHealthHx> mbrfamilyhealthhx { get; set; }
+        public DbSet<MbrHealthHx> mbrhealthhx { get; set; }
+        public DbSet<MbrHealthLevel> mbrhealthlevel { get; set; }
+        public DbSet<MbrPremPMPM> mbrprempmpm { get; set; }
     }
 }
