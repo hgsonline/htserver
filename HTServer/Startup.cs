@@ -25,7 +25,9 @@ namespace HTServer
 
             services.Configure<MyConfigReader>(Configuration);
             // Install - Package MySql.Data.EntityFrameworkCore - Version 8.0.8 - 
+            // for linux using docker ip addresss to be used
             // "myConnectionString": "server=192.168.43.164;port=3306; user=root; password=myroot; database=htdatabase;SslMode=none"
+            // "myConnectionString": "server=localhost;port=3306; user=root; password=myroot; database=htdatabase;SslMode=none"
             // "myConnectionString": "server=healthtrustdb.c99mihenwkah.us-west-2.rds.amazonaws.com;port=3306; user=master; password=Hgso2017; database=htdatabase;SslMode=none"
 
             var sqlConnectionString = Configuration.GetConnectionString("myConnectionString");
@@ -65,8 +67,8 @@ namespace HTServer
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.  
             app.UseSwaggerUI(c =>
             {
-               // c.SwaggerEndpoint("/swagger/v1/swagger.json", "Healt Trust API V1");
-                c.SwaggerEndpoint("/htserver/swagger/v1/swagger.json", "HT API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Healt Trust API V1");
+                //c.SwaggerEndpoint("/htserver/swagger/v1/swagger.json", "HT API V1");
             });
             
             app.UseMvc();
