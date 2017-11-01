@@ -79,10 +79,12 @@ namespace HTServer.Models
             //EmpId = (int)cmd.LastInsertedId; 
             EmpId  = (Int32)await cmd.ExecuteScalarAsync(); 
 
-            cmd.CommandText = @"UPDATE usermastertb a SET a.Password = @Password WHERE a.AccountId =  @Accountid; ";
+            cmd.CommandText = @"UPDATE usermastertb a SET a.Password = @Password WHERE a.AccountId =  @Accountid and a.UserTypeID = 2; ";
             cmd.CommandType = CommandType.Text;
             BindParamsPwd(cmd, EmpId);
             await cmd.ExecuteNonQueryAsync();
+
+
         }
 
         private void BindParamsPwd(MySqlCommand cmd, int AccountId)

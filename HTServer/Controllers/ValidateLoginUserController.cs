@@ -25,47 +25,73 @@ namespace HTServer.Controllers
 
         // POST api/values
         [HttpPost]
-        public LoginResponse Post([FromBody]UserMasterTB UserMasterTB)
+        public LoginResponse Post([FromBody]UserDetails UserDetails)
         {
             try
             {
                 LoginResponse loginresponse = new LoginResponse();
 
-                if (string.IsNullOrEmpty(UserMasterTB.Username) || string.IsNullOrEmpty(UserMasterTB.Password))
+                if (string.IsNullOrEmpty(UserDetails.Username) || string.IsNullOrEmpty(UserDetails.Password))
                 {
+                    loginresponse.UserID = 0;
                     loginresponse.Username = string.Empty;
                     loginresponse.Token = string.Empty;
                     loginresponse.UserTypeID = 0;
+                    loginresponse.AccountId = string.Empty;
+                    loginresponse.UserTypeName = string.Empty;
+                    loginresponse.UserEmail = string.Empty;
                     return loginresponse;
                 }
 
+                int UserTypeID = 0 ;
+                
+                    if (UserDetails.UserTypeName == "Admin")
+                    {
+                        UserTypeID = 1;
+                    }
+                    else if (UserDetails.UserTypeName == "Employer")
+                    {
+                        UserTypeID = 2;
+                    }
+                    else if (UserDetails.UserTypeName == "Member")
+                    {
+                         UserTypeID = 3;
+                    }
+                    else if (UserDetails.UserTypeName == "Provider")
+                    {
+                        UserTypeID = 4;
+                    }
+               
                 var encryptedPassword = (from user in _DatabaseContext.usermastertb
-                                         where user.Username == UserMasterTB.Username
+                                         where user.Username == UserDetails.Username && user.UserTypeID == UserTypeID
                                          select user.Password).SingleOrDefault();
 
 
                 if (!string.IsNullOrEmpty(encryptedPassword))
                 {
 
-                    if (EncryptionLibrary.DecryptText(encryptedPassword) == UserMasterTB.Password)
+                    if (EncryptionLibrary.DecryptText(encryptedPassword) == UserDetails.Password)
                     {
-                        string Encryptpassword = EncryptionLibrary.EncryptText(UserMasterTB.Password);
+                        string Encryptpassword = EncryptionLibrary.EncryptText(UserDetails.Password);
 
                         var isUserExists = (from user in _DatabaseContext.usermastertb
-                                            where user.Username == UserMasterTB.Username && user.Password == Encryptpassword
+                                            where user.Username == UserDetails.Username && user.Password == Encryptpassword && user.UserTypeID == UserTypeID
                                             select user).Count();
 
                         if (isUserExists > 0)
                         {
                             var usermastertb = (from user in _DatabaseContext.usermastertb
                                                 join usertype in _DatabaseContext.usertype on user.UserTypeID equals usertype.UserTypeID
-                                                where user.Username == UserMasterTB.Username && user.Password == Encryptpassword
+                                                where user.Username == UserDetails.Username && user.Password == Encryptpassword && user.UserTypeID == UserTypeID
                                                 select new UserMasterViewModel
                                                 {
                                                     UserID = user.UserID,
                                                     UserTypeID = user.UserTypeID,
                                                     UserTypeName = usertype.UserTypeName,
-                                                    Username = user.Username
+                                                    Username = user.Username,
+                                                    AccountId = user.AccountId,
+                                                    UserEmail =user.Email
+
                                                 }).SingleOrDefault();
 
                             if (usermastertb != null)
@@ -99,9 +125,30 @@ namespace HTServer.Controllers
                                     var result = _DatabaseContext.tokenmanager.Add(token);
 
                                     _DatabaseContext.SaveChanges();
+                                    loginresponse.UserID = usermastertb.UserID;
                                     loginresponse.Username = usermastertb.Username;
                                     loginresponse.Token = newToken;
                                     loginresponse.UserTypeID = usermastertb.UserTypeID;
+                                    loginresponse.UserTypeName = usermastertb.UserTypeName;
+                                    //if (usermastertb.UserTypeID == 1)
+                                    //{
+                                    //    loginresponse.UserTypeName = "Admin";
+                                    //}
+                                    //else if (usermastertb.UserTypeID == 2)
+                                    //{
+                                    //    loginresponse.UserTypeName = "Employer";
+                                    //}
+                                    //else if (usermastertb.UserTypeID == 3)
+                                    //{
+                                    //    loginresponse.UserTypeName = "Member";
+                                    //}
+                                    //else if (usermastertb.UserTypeID == 4)
+                                    //{
+                                    //    loginresponse.UserTypeName = "Provider";
+                                    //}
+
+                                    loginresponse.AccountId = usermastertb.AccountId;
+                                    loginresponse.UserEmail = usermastertb.UserEmail;
                                 }
                                 catch (Exception)
                                 {

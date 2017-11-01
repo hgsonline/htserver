@@ -30,6 +30,20 @@ namespace HTServer.Models
             return result.Count > 0 ? result[0] : null;
         }
 
+        public async Task<List<EmpMemberDep>> FindMemberAsync(int id)
+        {
+            var cmd = Db.Connection.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM `empmemberdep` WHERE `MemberID` = @id or `DependentID` = @id";
+            cmd.Parameters.Add(new MySqlParameter
+            {
+                ParameterName = "@id",
+                DbType = DbType.Int32,
+                Value = id,
+            });
+            return await ReadAllAsync(await cmd.ExecuteReaderAsync());
+            //return result.Count > 0 ? result[0] : null;
+        }
+
         public async Task<List<EmpMemberDep>> LatestPostsAsync()
         {
             var cmd = Db.Connection.CreateCommand();

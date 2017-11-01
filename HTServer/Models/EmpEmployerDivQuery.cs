@@ -29,6 +29,21 @@ namespace HTServer.Models
             return result.Count > 0 ? result[0] : null;
         }
 
+        public async Task<List<EmpEmployerDiv>> FindEmployerAsync(int id)
+        {
+            var cmd = Db.Connection.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM `empemployerdiv` WHERE `EmpId` = @id or `EmpDivID` = @id";
+            cmd.Parameters.Add(new MySqlParameter
+            {
+                ParameterName = "@id",
+                DbType = DbType.Int32,
+                Value = id,
+            });
+            return await ReadAllAsync(await cmd.ExecuteReaderAsync());
+            //return result.Count > 0 ? result[0] : null;
+        }
+
+
         public async Task<List<EmpEmployerDiv>> LatestPostsAsync()
         {
             var cmd = Db.Connection.CreateCommand();

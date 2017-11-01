@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Data;
+using HTServer.AES256Encryption;
 
 namespace HTServer.Models
 {
@@ -71,7 +72,31 @@ namespace HTServer.Models
             BindParams(cmd);
             //await cmd.ExecuteNonQueryAsync();
             //MemberID = (int)cmd.LastInsertedId; 
-            MemberID = (Int32)await cmd.ExecuteScalarAsync(); 
+            MemberID = (Int32)await cmd.ExecuteScalarAsync();
+
+            cmd.CommandText = @"UPDATE usermastertb a SET a.Password = @Password WHERE a.AccountId =  @Accountid and a.UserTypeID = 3; ";
+            cmd.CommandType = CommandType.Text;
+            BindParamsPwd(cmd, MemberID);
+            await cmd.ExecuteNonQueryAsync();
+
+
+        }
+
+        private void BindParamsPwd(MySqlCommand cmd, int AccountId)
+        {
+            cmd.Parameters.Add(new MySqlParameter
+            {
+                ParameterName = "@Accountid",
+                DbType = DbType.Int32,
+                Value = AccountId,
+            });
+
+            cmd.Parameters.Add(new MySqlParameter
+            {
+                ParameterName = "@Password",
+                DbType = DbType.String,
+                Value = EncryptionLibrary.EncryptText(AccountId.ToString()),
+            });
         }
 
         public async Task UpdateAsync()

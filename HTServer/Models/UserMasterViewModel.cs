@@ -8,10 +8,11 @@ namespace HTServer.Models
     public class UserMasterViewModel
     {
 
-        public int UserID { get; set; }       
         public string Username { get; set; }
+        public int UserID { get; set; }
         public string AccountId { get; set; }
         public int UserTypeID { get; set; }
         public string UserTypeName { get; set; }
+        public string UserEmail { get; set; }
     }
 }

@@ -16,9 +16,7 @@ namespace HTServer.Controllers
     [Route("api/ValidateUsername")]
     public class ValidateUsernameController : Controller
     {
-
         
-
         // POST api/values
         [HttpPost]
         public bool Post([FromBody]UserMasterTB usermastertb)

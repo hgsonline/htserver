@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,7 +6,6 @@ using Swashbuckle.AspNetCore.Swagger;
 using HTServer.Filters;
 using HTServer.Models; 
 using Microsoft.EntityFrameworkCore;
-using HTServer.Commonlibary;
 
 namespace HTServer
 {
@@ -25,7 +24,7 @@ namespace HTServer
             services.AddMvc();
 
             services.Configure<MyConfigReader>(Configuration);
-            // Not Requried as of now Install - Package MySql.Data.EntityFrameworkCore - Version 8.0.8 - 
+            // Install - Package MySql.Data.EntityFrameworkCore - Version 8.0.8 - 
             // for linux using docker ip addresss to be used
             // "myConnectionString": "server=192.168.43.164;port=3306; user=root; password=myroot; database=htdatabase;SslMode=none"
             // "myConnectionString": "server=localhost;port=3306; user=root; password=myroot; database=htdatabase;SslMode=none"
@@ -45,11 +44,6 @@ namespace HTServer
                 c.SwaggerDoc("v1", new Info { Title = "Healt Trust API", Version = "v1" });
                 c.AddSecurityDefinition("Token", new ApiKeyScheme() { In = "header", Description = "Please insert Token", Name = "Token", Type = "apiKey" });
         });
-
-            // Read email settings
-            services.Configure<EmailConfig>(Configuration.GetSection("Email"));
-            // Register email service 
-            services.AddTransient<IEmailService, EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,8 +68,8 @@ namespace HTServer
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.  
             app.UseSwaggerUI(c =>
             {
-                //c.SwaggerEndpoint("/swagger/v1/swagger.json", "Healt Trust API V1");
-                c.SwaggerEndpoint("/htserver/swagger/v1/swagger.json", "HT API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Healt Trust API V1");
+                //c.SwaggerEndpoint("/htserver/swagger/v1/swagger.json", "HT API V1");
             });
             
             app.UseMvc();

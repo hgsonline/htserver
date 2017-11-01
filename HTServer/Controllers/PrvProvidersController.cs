@@ -1,125 +1,77 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using HTServer.Models;
+using HTServer.Filters;
+using HTServer.Commonlibary;
 
 namespace HTServer.Controllers
 {
     [Produces("application/json")]
-    [Route("api/PrvProviders")]
-    public class PrvProvidersController : Controller
+    [Route("api/PrvProvider")]
+
+    public class PrvProviderController : Controller
     {
-        private readonly HTDataContext _context;
+        private readonly IEmailService _emailService;
 
-        public PrvProvidersController(HTDataContext context)
+        public PrvProviderController(IEmailService emailService)
         {
-            _context = context;
+            _emailService = emailService;
         }
 
-        // GET: api/PrvProviders
+
+        // GET api/PrvProvider
         [HttpGet]
-        public IEnumerable<PrvProvider> Getprvprovider()
+        public async Task<IActionResult> GetLatest()
         {
-            return _context.prvprovider;
+            using (var db = new AppDb())
+            {
+                await db.Connection.OpenAsync();
+                var query = new PrvProviderQuery(db);
+                var result = await query.LatestPostsAsync();
+                return new OkObjectResult(result);
+            }
         }
 
-        // GET: api/PrvProviders/5
+        // GET api/PrvProvider/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPrvProvider([FromRoute] int id)
+        public async Task<IActionResult> GetOne(int id)
         {
-            if (!ModelState.IsValid)
+            using (var db = new AppDb())
             {
-                return BadRequest(ModelState);
+                await db.Connection.OpenAsync();
+                var query = new PrvProviderQuery(db);
+                var result = await query.FindOneAsync(id);
+                if (result == null)
+                    return new NotFoundResult();
+                return new OkObjectResult(result);
             }
-
-            var prvProvider = await _context.prvprovider.SingleOrDefaultAsync(m => m.ProviderID == id);
-
-            if (prvProvider == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(prvProvider);
         }
 
-        // PUT: api/PrvProviders/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPrvProvider([FromRoute] int id, [FromBody] PrvProvider prvProvider)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
-            if (id != prvProvider.ProviderID)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(prvProvider).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PrvProviderExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/PrvProviders
+        // POST api/PrvProvider
         [HttpPost]
-        public async Task<IActionResult> PostPrvProvider([FromBody] PrvProvider prvProvider)
+        public async Task<IActionResult> Post([FromBody]PrvProvider body)
         {
-            if (!ModelState.IsValid)
+            using (var db = new AppDb())
             {
-                return BadRequest(ModelState);
+                await db.Connection.OpenAsync();
+                body.Db = db;
+                await body.InsertAsync();
+
+
+                //return new OkObjectResult(body);
+
+
+                var query = new PrvProviderQuery(db);
+                var result = await query.FindOneAsync(body.ProviderID);
+                if (result == null)
+                    return new NotFoundResult();
+
+                await _emailService.SendEmailAsync("saip@hgsonline.net", "Welcome to Health Trust " , "Welcome to Health Trust!<br/><br/>     You just registered to Provider Module on Health Trust.<br/><br/>     <b>Credential Details</b><br/><br/>     User Name: " + result.AccountId + " <br/>     Provider ID: "+ result.ProviderID  + " <br/><br/>     Password is your last 6 digit number of your User Name.<br/><br/>Regards.<br/>Healt Trust Team.");
+                
+                return new OkObjectResult(result);
             }
-
-            _context.prvprovider.Add(prvProvider);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPrvProvider", new { id = prvProvider.ProviderID }, prvProvider);
         }
 
-        // DELETE: api/PrvProviders/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePrvProvider([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var prvProvider = await _context.prvprovider.SingleOrDefaultAsync(m => m.ProviderID == id);
-            if (prvProvider == null)
-            {
-                return NotFound();
-            }
-
-            _context.prvprovider.Remove(prvProvider);
-            await _context.SaveChangesAsync();
-
-            return Ok(prvProvider);
-        }
-
-        private bool PrvProviderExists(int id)
-        {
-            return _context.prvprovider.Any(e => e.ProviderID == id);
-        }
     }
 }

@@ -43,7 +43,7 @@ namespace HTServer.Filters
                     long ticks = long.Parse(parts[3]);            // Ticks
                     DateTime IssuedOn = new DateTime(ticks);
 
-                    if (UserTypeID == 2)
+                    if (UserTypeID > 1)
                     {
                         var registerModel = (from register in _databasecontext.tokenmanager
                                              where register.UserID == UserID
