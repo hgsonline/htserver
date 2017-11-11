@@ -41,8 +41,7 @@ namespace HTServer.Models
             //await cmd.ExecuteNonQueryAsync();
             //EmpContactId = (int)cmd.LastInsertedId;
         }
-
-         
+                 
         public async Task UpdateAsync()
         {
             var cmd = Db.Connection.CreateCommand() as MySqlCommand;
@@ -55,7 +54,7 @@ namespace HTServer.Models
         public async Task DeleteAsync()
         {
             var cmd = Db.Connection.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"DELETE FROM `EmpDivContact` WHERE `EmpId` = @EmpId;";
+            cmd.CommandText = @"DELETE FROM `EmpDivContact` WHERE `EmpContactId` = @EmpContactId;";
             BindId(cmd);
             await cmd.ExecuteNonQueryAsync();
         }

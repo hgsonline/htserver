@@ -44,6 +44,20 @@ namespace HTServer.Models
             //return result.Count > 0 ? result[0] : null;
         }
 
+        public async Task<List<EmpMemberDep>> FindEmployerMemberAsync(int id)
+        {
+            var cmd = Db.Connection.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM `empmemberdep` WHERE `EmpId` = @id  and `DependentID` = 0";
+            cmd.Parameters.Add(new MySqlParameter
+            {
+                ParameterName = "@id",
+                DbType = DbType.Int32,
+                Value = id,
+            });
+            return await ReadAllAsync(await cmd.ExecuteReaderAsync());
+            //return result.Count > 0 ? result[0] : null;
+        }
+
         public async Task<List<EmpMemberDep>> LatestPostsAsync()
         {
             var cmd = Db.Connection.CreateCommand();
@@ -64,22 +78,22 @@ namespace HTServer.Models
                         MemberID = await reader.GetFieldValueAsync<int>(0),
                         EmpId = await reader.GetFieldValueAsync<int>(1),
                         DependentID = await reader.GetFieldValueAsync<int>(2),
-                        DependentType = await reader.GetFieldValueAsync<string>(3),
-                        DOB = await reader.GetFieldValueAsync<DateTime>(4),
-                        Sex = await reader.GetFieldValueAsync<string>(5),
-                        GovtID = await reader.GetFieldValueAsync<string>(6),
-                        DateAssumed = await reader.GetFieldValueAsync<DateTime>(7), 
-                        LastName = await reader.GetFieldValueAsync<string>(8),
-                        FirstName = await reader.GetFieldValueAsync<string>(9),
-                        MiddleName = await reader.GetFieldValueAsync<string>(10),
-                        NameSuffix = await reader.GetFieldValueAsync<string>(11),
-                        EmailAddress = await reader.GetFieldValueAsync<string>(12),
-                        PostalCode = await reader.GetFieldValueAsync<string>(13),
-                        StateProvince = await reader.GetFieldValueAsync<string>(14),
-                        City = await reader.GetFieldValueAsync<string>(15),
-                        Street1 = await reader.GetFieldValueAsync<string>(16),
-                        Street2 = await reader.GetFieldValueAsync<string>(17), 
-                        AccountId = await reader.GetFieldValueAsync<string>(18),
+                        DependentType = await reader.IsDBNullAsync(3) ? "" : await reader.GetFieldValueAsync<string>(3),
+                        DOB = await reader.IsDBNullAsync(4) ? DateTime.Now.Date : await reader.GetFieldValueAsync<DateTime>(4),
+                        Sex = await reader.IsDBNullAsync(5) ? "" : await reader.GetFieldValueAsync<string>(5),
+                        GovtID = await reader.IsDBNullAsync(6) ? "" : await reader.GetFieldValueAsync<string>(6),
+                        DateAssumed = await reader.IsDBNullAsync(7) ? DateTime.Now.Date : await reader.GetFieldValueAsync<DateTime>(7), 
+                        LastName = await reader.IsDBNullAsync(8) ? "" : await reader.GetFieldValueAsync<string>(8),
+                        FirstName = await reader.IsDBNullAsync(9) ? "" : await reader.GetFieldValueAsync<string>(9),
+                        MiddleName = await reader.IsDBNullAsync(10) ? "" : await reader.GetFieldValueAsync<string>(10),
+                        NameSuffix = await reader.IsDBNullAsync(11) ? "" : await reader.GetFieldValueAsync<string>(11),
+                        EmailAddress = await reader.IsDBNullAsync(12) ? "" : await reader.GetFieldValueAsync<string>(12),
+                        PostalCode = await reader.IsDBNullAsync(13) ? "" : await reader.GetFieldValueAsync<string>(13),
+                        StateProvince = await reader.IsDBNullAsync(14) ? "" : await reader.GetFieldValueAsync<string>(14),
+                        City = await reader.IsDBNullAsync(15) ? "" : await reader.GetFieldValueAsync<string>(15),
+                        Street1 = await reader.IsDBNullAsync(16) ? "" : await reader.GetFieldValueAsync<string>(16),
+                        Street2 = await reader.IsDBNullAsync(17) ? "" : await reader.GetFieldValueAsync<string>(17), 
+                        AccountId = await reader.IsDBNullAsync(18) ? "" : await reader.GetFieldValueAsync<string>(18),
                         IsActive = await reader.GetFieldValueAsync<int>(19),
                         CreatedAt = await reader.GetFieldValueAsync<DateTime>(20),
                         //UpdatedAt = await reader.GetFieldValueAsync<DateTime>(21)

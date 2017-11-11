@@ -22,9 +22,18 @@ namespace HTServer.Controllers
 
         // GET: api/ActMbrBasePremiums
         [HttpGet]
-        public IEnumerable<ActMbrBasePremium> Getactmbrbasepremium()
+        public async Task<IActionResult> GetActMbrBasePremium()
         {
-            return _context.actmbrbasepremium;
+            var actMbrBasePremium =  await _context.actmbrbasepremium.Include(age => age.ActAgeGroup).ToListAsync();
+
+            //foreach (ActMbrBasePremium a in actMbrBasePremium )
+            //{
+            //   await  _context.actagegroup.SingleOrDefaultAsync(c => c.AgeGroupID == a.AgeGroupID);
+
+            //}
+             
+            return Ok(actMbrBasePremium);
+            //return _context.actmbrbasepremium;
         }
 
         // GET: api/ActMbrBasePremiums/5
@@ -38,10 +47,14 @@ namespace HTServer.Controllers
 
             var actMbrBasePremium = await _context.actmbrbasepremium.SingleOrDefaultAsync(m => m.MbrBasePremID == id);
 
+            //var actMbrBasePremium = await _context.actmbrbasepremium.Include(m => m.MbrBasePremID == id).ThenInclude(age => age.ActAgeGroup).;
+
             if (actMbrBasePremium == null)
             {
                 return NotFound();
             }
+
+            var actAgeGroup = await _context.actagegroup.SingleOrDefaultAsync(c => c.AgeGroupID == actMbrBasePremium.AgeGroupID);
 
             return Ok(actMbrBasePremium);
         }

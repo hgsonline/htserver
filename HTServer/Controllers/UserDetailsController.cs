@@ -11,7 +11,7 @@ namespace HTServer.Controllers
 {
     [Produces("application/json")]
     [Route("api/UserDetails")]
-    [TypeFilter(typeof(APIUserAuthorizeAttribute))]
+   // [TypeFilter(typeof(APIUserAuthorizeAttribute))]
     public class UserDetailsController : Controller
     {
 

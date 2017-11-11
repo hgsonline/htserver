@@ -14,5 +14,7 @@ namespace HTServer.Models
         public int UserTypeID { get; set; }
         public string UserTypeName { get; set; }
         public string UserEmail { get; set; }
+        public int IsFirstLogin { get; set; }
+        public string DisplayName { get; set; }
     }
 }

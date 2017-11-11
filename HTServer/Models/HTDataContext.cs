@@ -18,10 +18,13 @@ namespace HTServer.Models
         public DbSet<TokenManager> tokenmanager { get; set; }
         public DbSet<UserType> usertype { get; set; }
 
+
         public DbSet<EmpEntityType> empentitytype { get; set; }
+        public DbSet<States> states { get; set; }
 
         public DbSet<PrvMedicalFacility> prvmedicalfacility { get; set; }
         public DbSet<PrvMedFacDivision> prvmedfacdivision { get; set; }
+
         public DbSet<PrvMedFacDivEntityType> prvmedfacdiventitytype { get; set; }
         public DbSet<PrvMedFacDivProvider> prvmedfacdivprovider { get; set; }
         public DbSet<PrvProviderContract> prvprovidercontract { get; set; }
@@ -39,6 +42,7 @@ namespace HTServer.Models
         public DbSet<ActEECostShareFactor> acteecostsharefactor { get; set; }
         public DbSet<ActEmployerPremiumCostShare> actemployerpremiumcostshare { get; set; }
         public DbSet<ActHealthIntensityFactor> acthealthintensityfactor { get; set; }
+
         public DbSet<ActMbrBasePremium> actmbrbasepremium { get; set; }
 
 

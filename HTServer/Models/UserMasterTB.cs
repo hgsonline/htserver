@@ -18,6 +18,7 @@ namespace HTServer.Models
         public string Email { get; set; }
         public int UserTypeID { get; set; }
         public int IsFirstLogin { get; set; }
+        public string DisplayName { get; set; }
 
         public int? IsActive { get; set; }
         public DateTime? CreatedAt { get; set; }

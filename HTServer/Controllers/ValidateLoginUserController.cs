@@ -40,6 +40,8 @@ namespace HTServer.Controllers
                     loginresponse.AccountId = string.Empty;
                     loginresponse.UserTypeName = string.Empty;
                     loginresponse.UserEmail = string.Empty;
+                    loginresponse.IsFirstLogin = -1;
+                    loginresponse.DisplayName = string.Empty;
                     return loginresponse;
                 }
 
@@ -90,8 +92,9 @@ namespace HTServer.Controllers
                                                     UserTypeName = usertype.UserTypeName,
                                                     Username = user.Username,
                                                     AccountId = user.AccountId,
-                                                    UserEmail =user.Email
-
+                                                    UserEmail =user.Email,
+                                                    IsFirstLogin = user.IsFirstLogin, 
+                                                    DisplayName = user.DisplayName
                                                 }).SingleOrDefault();
 
                             if (usermastertb != null)
@@ -106,8 +109,12 @@ namespace HTServer.Controllers
                                     {
                                         var deleteToken = (from temptoken in _DatabaseContext.tokenmanager
                                                            where temptoken.UserID == usermastertb.UserID
-                                                           select temptoken).SingleOrDefault();
+                                                           select temptoken).FirstOrDefault();
 
+                                                        ////Exactly one: Single
+                                                        ////One or zero: SingleOrDefault
+                                                        ////One or more: First
+                                                        ////Zero or more: FirstOrDefault
                                         _DatabaseContext.tokenmanager.Remove(deleteToken);
                                         _DatabaseContext.SaveChanges();
                                     }
@@ -149,6 +156,8 @@ namespace HTServer.Controllers
 
                                     loginresponse.AccountId = usermastertb.AccountId;
                                     loginresponse.UserEmail = usermastertb.UserEmail;
+                                    loginresponse.IsFirstLogin = usermastertb.IsFirstLogin;
+                                    loginresponse.DisplayName = usermastertb.DisplayName;
                                 }
                                 catch (Exception)
                                 {

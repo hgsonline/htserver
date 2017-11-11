@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using HTServer.Models;
 using HTServer.Filters;
+using Microsoft.AspNetCore.Cors;
 
 namespace HTServer.Controllers
 {
+    [EnableCors("SiteCorsPolicy")]
     [Produces("application/json")]
     [Route("api/EmpMemDepContact")]
     //[TypeFilter(typeof(APIUserAuthorizeAttribute))]

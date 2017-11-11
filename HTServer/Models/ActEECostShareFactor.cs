@@ -12,8 +12,8 @@ namespace HTServer.Models
         public int EECostShareFactorID { get; set; }
         public int MedicalCategoryID { get; set; }
         public string MbrCopayType { get; set; }
-        public int MbrCopayAmount { get; set; }
-        public int EECostShareFactor { get; set; }
+        public decimal MbrCopayAmount { get; set; }
+        public decimal EECostShareFactor { get; set; }
 
         public int? IsActive { get; set; }
         public DateTime? CreatedAt { get; set; }

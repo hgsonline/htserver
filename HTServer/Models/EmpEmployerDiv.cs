@@ -8,9 +8,9 @@ using HTServer.AES256Encryption;
 
 namespace HTServer.Models
 {
-
     public class EmpEmployerDiv 
     {
+
         [Key]
         public int EmpId { get; set; }
         public string IRS_EIN { get; set; }
