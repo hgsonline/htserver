@@ -75,9 +75,9 @@ namespace HTServer.Models
                 {
                     var post = new EmpMemberDep(Db)
                     {
-                        MemberID = await reader.GetFieldValueAsync<int>(0),
-                        EmpId = await reader.GetFieldValueAsync<int>(1),
-                        DependentID = await reader.GetFieldValueAsync<int>(2),
+                        MemberID = await reader.IsDBNullAsync(0) ? 0 : await reader.GetFieldValueAsync<int>(0),
+                        EmpId = await reader.IsDBNullAsync(1) ? 0 : await reader.GetFieldValueAsync<int>(1), 
+                        DependentID = await reader.IsDBNullAsync(2) ? 0 : await reader.GetFieldValueAsync<int>(2),
                         DependentType = await reader.IsDBNullAsync(3) ? "" : await reader.GetFieldValueAsync<string>(3),
                         DOB = await reader.IsDBNullAsync(4) ? DateTime.Now.Date : await reader.GetFieldValueAsync<DateTime>(4),
                         Sex = await reader.IsDBNullAsync(5) ? "" : await reader.GetFieldValueAsync<string>(5),

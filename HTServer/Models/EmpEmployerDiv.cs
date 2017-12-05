@@ -104,15 +104,26 @@ namespace HTServer.Models
             });
         }
 
-
-            public async Task UpdateAsync()
+        public async Task UpdateAsync()
         {
             var cmd = Db.Connection.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"UPDATE `emp_employer` SET `IRS_EIN` = @IRS_EIN, `CompanyName` = @CompanyName WHERE `EmpId` = @EmpId;";
+            cmd.CommandText = @"EmpEmployerDiv_RA_Update";
+            cmd.CommandType = CommandType.StoredProcedure;
             BindParams(cmd);
-            BindId(cmd);
-            await cmd.ExecuteNonQueryAsync();
+            //await cmd.ExecuteNonQueryAsync();
+            //EmpId = (int)cmd.LastInsertedId; 
+            EmpId = (Int32)await  cmd.ExecuteNonQueryAsync();
+
+
         }
+        //    public async Task UpdateAsync()
+        //{
+        //    var cmd = Db.Connection.CreateCommand() as MySqlCommand;
+        //    cmd.CommandText = @"UPDATE `emp_employer` SET `IRS_EIN` = @IRS_EIN, `CompanyName` = @CompanyName WHERE `EmpId` = @EmpId;";
+        //    BindParams(cmd);
+        //    BindId(cmd);
+        //    await cmd.ExecuteNonQueryAsync();
+        //}
 
         public async Task DeleteAsync()
         {

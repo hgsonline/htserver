@@ -81,7 +81,19 @@ namespace HTServer.Models
 
 
         }
+        public async Task UpdateAsync()
+        {
+            var cmd = Db.Connection.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"EmpMemberDep_RA_Update";
+            cmd.CommandType = CommandType.StoredProcedure;
+            BindParams(cmd);
+            BindId(cmd);
+            //await cmd.ExecuteNonQueryAsync();
+            //EmpId = (int)cmd.LastInsertedId; 
+            MemberID = (Int32)await cmd.ExecuteNonQueryAsync();
 
+
+        }
         private void BindParamsPwd(MySqlCommand cmd, int AccountId)
         {
             cmd.Parameters.Add(new MySqlParameter
@@ -99,14 +111,14 @@ namespace HTServer.Models
             });
         }
 
-        public async Task UpdateAsync()
-        {
-            var cmd = Db.Connection.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"UPDATE `EmpMemberDep` SET `IRS_EIN` = @IRS_EIN, `CompanyName` = @CompanyName WHERE `MemberID` = @MemberID;";
-            BindParams(cmd);
-            BindId(cmd);
-            await cmd.ExecuteNonQueryAsync();
-        }
+        //public async Task UpdateAsync()
+        //{
+        //    var cmd = Db.Connection.CreateCommand() as MySqlCommand;
+        //    cmd.CommandText = @"UPDATE `EmpMemberDep` SET `IRS_EIN` = @IRS_EIN, `CompanyName` = @CompanyName WHERE `MemberID` = @MemberID;";
+        //    BindParams(cmd);
+        //    BindId(cmd);
+        //    await cmd.ExecuteNonQueryAsync();
+        //}
 
         public async Task DeleteAsync()
         {

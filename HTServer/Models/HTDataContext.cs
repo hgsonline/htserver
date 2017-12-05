@@ -46,7 +46,13 @@ namespace HTServer.Models
         public DbSet<ActMbrBasePremium> actmbrbasepremium { get; set; }
 
 
-
+        public DbSet<EmpDivWageType> empdivwagetype { get; set; }
+        public DbSet<EmpEECostShareOption> empeecostshareoption { get; set; }
+        public DbSet<EmpEmpDivEE> empempdivee { get; set; }
+        public DbSet<EmpEEFamily> empeefamily { get; set; }
+        public DbSet<EmpDivPremCostShare> empdivpremcostshare { get; set; }
+        public DbSet<EmpEECostShareFactor> empeecostsharefactor { get; set; }
+        public DbSet<EmpEEWageType> empeewagetype { get; set; }
 
     }
 }

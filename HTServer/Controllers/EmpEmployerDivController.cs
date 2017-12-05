@@ -37,14 +37,14 @@ namespace HTServer.Controllers
         }
 
         // GET api/EmpEmployerDiv/5
-        [HttpGet("{id}")]
+        [HttpGet("GetOne/{id}")]
         public async Task<IActionResult> GetOne(int id)
         {
             using (var db = new AppDb())
             {
                 await db.Connection.OpenAsync();
                 var query = new EmpEmployerDivQuery(db);
-                var result = await query.FindEmployerAsync(id);
+                var result = await query.FindOneAsync(id);
                 if (result == null)
                     return new NotFoundResult();
                 return new OkObjectResult(result);
@@ -52,19 +52,19 @@ namespace HTServer.Controllers
         }
 
         // GET api/EmpEmployerDiv/5
-        //[HttpGet("{eid}")]
-        //public async Task<IActionResult> GetEmployer(int eid)
-        //{
-        //    using (var db = new AppDb())
-        //    {
-        //        await db.Connection.OpenAsync();
-        //        var query = new EmpEmployerDivQuery(db);
-        //        var result = await query.FindEmployerAsync(eid);
-        //        if (result == null)
-        //            return new NotFoundResult();
-        //        return new OkObjectResult(result);
-        //    }
-        //}
+        [HttpGet("{eid}")]
+        public async Task<IActionResult> GetEmployer(int eid)
+        {
+            using (var db = new AppDb())
+            {
+                await db.Connection.OpenAsync();
+                var query = new EmpEmployerDivQuery(db);
+                var result = await query.FindEmployerAsync(eid);
+                if (result == null)
+                    return new NotFoundResult();
+                return new OkObjectResult(result);
+            }
+        }
 
         // POST api/EmpEmployerDiv
         [HttpPost]
@@ -103,8 +103,26 @@ namespace HTServer.Controllers
                     return new NotFoundResult();
                 result.IRS_EIN = body.IRS_EIN;
                 result.CompanyName = body.CompanyName;
+                result.EmpDivID = body.EmpDivID;
+                result.NAICS_ID = body.NAICS_ID;
+                result.DivisionRelation = body.DivisionRelation;
+                result.DBAName = body.DBAName;
+                result.ContactPriority = body.ContactPriority;
+                result.PositionTitle = body.PositionTitle;
+                result.LastName = body.LastName;
+                result.FirstName = body.FirstName;
+                result.MiddleName = body.MiddleName;
+                result.NameSuffix = body.NameSuffix;
+                result.EmailAddress = body.EmailAddress;
+                result.PostalCode = body.PostalCode;
+                result.StateProvince = body.StateProvince;
+                result.City = body.City;
+                result.Street1 = body.Street1;
+                result.Street2 = body.Street2;
+                result.EntityTypeID = body.EntityTypeID;
+    
                 await result.UpdateAsync();
-                return new OkObjectResult(result);
+                return new OkObjectResult(body);
             }
         }
 

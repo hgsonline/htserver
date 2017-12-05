@@ -14,8 +14,9 @@ namespace HTServer.Models
         public int MedicalCategoryID { get; set; }
 
         [ForeignKey("AgeGroupID")]
-        public ActAgeGroup ActAgeGroup { get; set; }
         public int AgeGroupID { get; set; }
+        public ActAgeGroup ActAgeGroup { get; set; }
+       
 
         public string Sex { get; set; }
         public decimal BasePremPMPM { get; set; }
