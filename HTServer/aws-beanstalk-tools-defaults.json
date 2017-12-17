@@ -1,0 +1,10 @@
+
+{
+    "comment" : "This file is used to help set default values when using the dotnet CLI extension Amazon.ElasticBeanstalk.Tools. For more information run \"dotnet eb --help\" from the project root.",
+    "profile" : "HealtTrust",
+    "region"  : "us-west-2",
+    "application" : "HTServer",
+    "environment" : "HTServer-prod",
+    "iis-website" : "Default Web Site",
+    "app-path"    : "/HTServer"
+}
