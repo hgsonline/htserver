@@ -18,6 +18,7 @@ namespace HTServer.Models
         public DbSet<TokenManager> tokenmanager { get; set; }
         public DbSet<UserType> usertype { get; set; }
 
+        public DbSet<datNAICS> datNAICS { get; set; }
 
         public DbSet<EmpEntityType> empentitytype { get; set; }
         public DbSet<States> states { get; set; }

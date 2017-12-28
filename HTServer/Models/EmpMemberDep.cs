@@ -54,7 +54,7 @@ namespace HTServer.Models
         public int? IsActive { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-
+        public bool HasMedicalData { get; set; }
 
         [JsonIgnore]
         public AppDb Db { get; set; }
