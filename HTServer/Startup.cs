@@ -25,7 +25,7 @@ namespace HTServer
         {
             
             services.Configure<MyConfigReader>(Configuration);
-            //@sai ram
+            //@sai ram @2017
             // Not Requried as of now Install - Package MySql.Data.EntityFrameworkCore - Version 8.0.8 - 
             // for linux using docker ip addresss to be used
             // "myConnectionString": "server=192.168.43.164;port=3306; user=root; password=myroot; database=htdatabase;SslMode=none"
