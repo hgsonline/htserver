@@ -14,4 +14,10 @@ namespace HTServer.Models
         public string SubSector { get; set; }
         public string IndustryGroup { get; set; }
     }
+
+    public class shortCodes
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
 }

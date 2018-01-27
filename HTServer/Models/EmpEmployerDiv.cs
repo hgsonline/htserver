@@ -43,7 +43,7 @@ namespace HTServer.Models
         [EmailAddress]
         public string EmailAddress { get; set; }
         [Required]
-        public int? PostalCode { get; set; }
+        public string PostalCode { get; set; }
         [Required]
         public string StateProvince { get; set; }
         [Required]

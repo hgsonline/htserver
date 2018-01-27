@@ -24,18 +24,29 @@ namespace HTServer.Controllers
         [HttpGet]
         public async Task<IActionResult> GetActMbrBasePremium()
         {
-            var actMbrBasePremium =  await _context.actmbrbasepremium.Include(age => age.ActAgeGroup).ToListAsync();
+            var actMbrBasePremium = await _context.actmbrbasepremium.Include(age => age.ActAgeGroup).ToListAsync();
 
             //foreach (ActMbrBasePremium a in actMbrBasePremium )
             //{
             //   await  _context.actagegroup.SingleOrDefaultAsync(c => c.AgeGroupID == a.AgeGroupID);
 
             //}
-             
+
             return Ok(actMbrBasePremium);
             //return _context.actmbrbasepremium;
         }
+        // GET: api/ActMbrBasePremiums
+        [HttpGet("DefaultPercentage")]
+        public async Task<IActionResult> GetActMbrBaseDefaultPercentage()
+        {
+            //var actMbrBasePremium = await _context.actmbrbasepremium.Include(age => age.ActAgeGroup).ToListAsync();
 
+            decimal sumofm = _context.actmbrbasepremium.Where(m => m.Sex == "M" && m.AgeGroupID == 100007).Sum(m => m.BasePremPMPM);
+            decimal sumoff = _context.actmbrbasepremium.Where(m => m.Sex == "F" && m.AgeGroupID == 100007).Sum(m => m.BasePremPMPM);
+            decimal avg = (sumoff + sumofm) / 2;
+            return Ok(avg);
+            //return _context.actmbrbasepremium;
+        }
         // GET: api/ActMbrBasePremiums/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetActMbrBasePremium([FromRoute] int id)

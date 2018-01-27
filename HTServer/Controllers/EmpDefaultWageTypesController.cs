@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HTServer.Models;
+using System.Net.Http;
 
 namespace HTServer.Controllers
 {
@@ -24,9 +25,12 @@ namespace HTServer.Controllers
         [HttpGet]
         public IEnumerable<EmpDefaultWageType> Getempdefaultwagetype()
         {
-            return _context.empdefaultwagetype;
+           
+            List<EmpDefaultWageType> test = new List<EmpDefaultWageType>();
+            test = _context.empdefaultwagetype.ToList();
+            return _context.empdefaultwagetype.Where(w => w.IsActive == 1);
         }
-
+        
         // GET: api/EmpDefaultWageTypes/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEmpDefaultWageType([FromRoute] int id)
