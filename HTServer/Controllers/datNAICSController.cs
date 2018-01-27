@@ -22,9 +22,15 @@ namespace HTServer.Controllers
 
         // GET: api/datNAICS
         [HttpGet]
-        public IEnumerable<datNAICS> GetdatNAICS()
+        public IEnumerable<shortCodes> GetdatNAICS()
         {
-            return _context.datNAICS;
+            List<shortCodes> naicsList = (from item in _context.datNAICS
+                             select new shortCodes()
+                             {
+                                 Id = item.Code,
+                                 Name = item.Code + " ," + item.Sector + "," + item.SubSector + " ," + item.IndustryGroup
+                             }).ToList();
+            return naicsList;
         }
 
         // GET: api/datNAICS/5

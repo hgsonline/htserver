@@ -94,7 +94,7 @@ namespace HTServer.Models
                         MiddleName = await reader.IsDBNullAsync(13) ? "" : await reader.GetFieldValueAsync<string>(13),
                         NameSuffix = await reader.IsDBNullAsync(14) ? "" : await reader.GetFieldValueAsync<string>(14),
                         EmailAddress = await reader.IsDBNullAsync(15) ? "" : await reader.GetFieldValueAsync<string>(15),
-                        PostalCode = await reader.IsDBNullAsync(16) ? 0 : await reader.GetFieldValueAsync<int>(16),
+                        PostalCode = await reader.IsDBNullAsync(16) ? "" : await reader.GetFieldValueAsync<string>(16),
                         StateProvince = await reader.IsDBNullAsync(17) ? "" : await reader.GetFieldValueAsync<string>(17),
                         City = await reader.IsDBNullAsync(18) ? "" : await reader.GetFieldValueAsync<string>(18),
                         Street1 = await reader.IsDBNullAsync(19) ? "" : await reader.GetFieldValueAsync<string>(19),
