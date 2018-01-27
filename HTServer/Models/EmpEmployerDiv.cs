@@ -248,7 +248,7 @@ namespace HTServer.Models
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "PostalCode",
-                DbType = DbType.Int32,
+                DbType = DbType.String,
                 Value = PostalCode,
             });
             cmd.Parameters.Add(new MySqlParameter

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using HTServer.Models;
 using HTServer.Filters;
+using HTServer.AES256Encryption;
 
 namespace HTServer.Controllers
 {
@@ -35,9 +36,9 @@ namespace HTServer.Controllers
                 }
 
                 var Userdetails = (from user in _DatabaseContext.usermastertb
-                                   where user.Username == CommonModel.Username
+                                   where user.Username == CommonModel.Username & user.IsActive == 1
                                    select user).SingleOrDefault();
-
+                
                 return Userdetails;
             }
             catch (Exception)
