@@ -84,7 +84,7 @@ namespace HTServer.Controllers
                         {
                             var usermastertb = (from user in _DatabaseContext.usermastertb
                                                 join usertype in _DatabaseContext.usertype on user.UserTypeID equals usertype.UserTypeID
-                                                where user.Username == UserDetails.Username && user.Password == Encryptpassword && user.UserTypeID == UserTypeID
+                                                where user.Username == UserDetails.Username && user.Password == Encryptpassword && user.UserTypeID == UserTypeID && user.IsActive ==1
                                                 select new UserMasterViewModel
                                                 {
                                                     UserID = user.UserID,

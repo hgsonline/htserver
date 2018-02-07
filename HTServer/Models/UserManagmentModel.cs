@@ -11,6 +11,7 @@ namespace HTServer.Models
     {
        
         public string AccountID { get; set; }
+        public int UsertypeID { get; set; }
     }
 
 }
