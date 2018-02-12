@@ -82,8 +82,6 @@ namespace HTServer.Controllers
                         }
                         else
                         {
-
-
                             int result = 0;
 
                             if (UserUpdateModel.Updatetype == "A")
