@@ -36,7 +36,7 @@ namespace HTServer.Controllers
                 return BadRequest(ModelState);
             }
 
-            var empDivWageType = await _context.empdivwagetype.SingleOrDefaultAsync(m => m.EmpDivWageTypeID == id);
+            var empDivWageType = await _context.empdivwagetype.Where(m => m.EmpDivID == id).ToListAsync();
 
             if (empDivWageType == null)
             {

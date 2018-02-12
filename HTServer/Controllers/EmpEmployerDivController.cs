@@ -4,6 +4,7 @@ using HTServer.Models;
 using HTServer.Filters;
 using HTServer.Commonlibary;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.EntityFrameworkCore;
 
 namespace HTServer.Controllers
 {
@@ -16,10 +17,12 @@ namespace HTServer.Controllers
     {
 
         private readonly IEmailService _emailService;
+        private readonly HTDataContext _context;
 
-        public EmpEmployerDivController(IEmailService emailService)
+        public EmpEmployerDivController(IEmailService emailService, HTDataContext context)
         {
             _emailService = emailService;
+            _context = context;
         }
 
 

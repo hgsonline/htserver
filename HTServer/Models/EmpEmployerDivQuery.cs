@@ -32,7 +32,9 @@ namespace HTServer.Models
         public async Task<List<EmpEmployerDiv>> FindEmployerAsync(int id)
         {
             var cmd = Db.Connection.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"SELECT * FROM `empemployerdiv` WHERE `EmpId` = @id or `EmpDivID` = @id";
+            cmd.CommandText = @"getAllemp_memcountdata";
+            cmd.CommandType = CommandType.StoredProcedure;
+            //cmd.CommandText = @"SELECT * FROM `empemployerdiv` WHERE `EmpId` = @id or `EmpDivID` = @id";
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@id",
@@ -103,7 +105,8 @@ namespace HTServer.Models
                         AccountId = await reader.IsDBNullAsync(22) ? "" : await reader.GetFieldValueAsync<string>(22),
                         IsActive = await reader.GetFieldValueAsync<int>(23),
                         CreatedAt = await reader.GetFieldValueAsync<DateTime>(24),
-                        UpdatedAt = await reader.IsDBNullAsync(25) ? DateTime.Now.Date : await  reader.GetFieldValueAsync<DateTime>(25)
+                        UpdatedAt = await reader.IsDBNullAsync(25) ? DateTime.Now.Date : await  reader.GetFieldValueAsync<DateTime>(25),
+                        HasDependents = await reader.IsDBNullAsync(26) ? false : await reader.GetFieldValueAsync<Int32>(26) == 0 ? false : true
                     };
                     posts.Add(post);
                 }
