@@ -97,7 +97,7 @@ namespace HTServer
             app.UseSwaggerUI(c =>
             {
               //c.SwaggerEndpoint("/swagger/v1/swagger.json", "HT API V1");
-              c.SwaggerEndpoint("/htserver/swagger/v1/swagger.json", "HT API V1");
+               c.SwaggerEndpoint("/htserver/swagger/v1/swagger.json", "HT API V1");
             });
             
             app.UseMvc();

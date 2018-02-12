@@ -6,8 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using HTServer.Models;
 using MySql.Data.MySqlClient;
-//using Pomelo.Data.MySql;
-
+//using Pomelo.Data.MySql; 
 using System.Data;
 
 namespace HTServer.Controllers
@@ -31,7 +30,7 @@ namespace HTServer.Controllers
                 {
                     db.Connection.Open();
                     var cmd = db.Connection.CreateCommand() as MySqlCommand;
-                    cmd.CommandText = @"SELECT count(*) Cnt FROM `UserMasterTB` WHERE `Username` = @id";
+                    cmd.CommandText = @"SELECT count(*) Cnt FROM `UserMasterTB` WHERE IsActive=1 and `Username` = @id";
                     cmd.Parameters.Add(new MySqlParameter
                     {
                         ParameterName = "@id",

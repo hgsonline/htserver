@@ -33,13 +33,22 @@ namespace HTServer.Controllers
                 {
                     return null;
                 }
-
-                
+                                
                 using (var db = new AppDb())
                 {
                     db.Connection.Open();
                     var cmd = db.Connection.CreateCommand() as MySqlCommand;
-                    cmd.CommandText = @"SELECT * FROM usermastertb where Username in ( SELECT AccountId FROM  empmemberdep where empid in (@id)) ";
+                    if (CommonModel.UsertypeID == 3)
+                    {
+                        //user type member
+                        cmd.CommandText = @"SELECT * FROM usermastertb where Username in ( SELECT AccountId FROM  empmemberdep where empid in (@id)) and usertypeid = 3 ";
+                    }
+                    else
+                    {
+                        //user type employer
+                        cmd.CommandText = @"SELECT * FROM usermastertb where Username in ( SELECT AccountId FROM  empemployerdiv where empid in (@id)) and usertypeid = 2 ";
+                    }
+                    
                     cmd.Parameters.Add(new MySqlParameter
                     {
                         ParameterName = "@id",
@@ -76,11 +85,7 @@ namespace HTServer.Controllers
                     }
 
                     return Userdetails;
-                }
-
-
-               
-
+                } 
             }
             catch (Exception)
             {
