@@ -129,7 +129,7 @@ namespace HTServer.Models
         public async Task DeleteAsync()
         {
             var cmd = Db.Connection.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"DELETE FROM `EmpEmployerDiv` WHERE `EmpId` = @EmpId;";
+            cmd.CommandText = @"UPDATE `EmpEmployerDiv` SET IsActive=0 WHERE `EmpId` = @EmpId;";
             BindId(cmd);
             await cmd.ExecuteNonQueryAsync();
         }
